@@ -30,6 +30,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import io.github.sublimis.steadyscreen.SteadyScreen
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.wikipedia.Constants
@@ -107,6 +108,8 @@ class PageActivity : BaseActivity(), PageFragment.Callback, LinkPreviewDialog.Lo
     private val isCabOpen get() = currentActionModes.isNotEmpty()
     private var exclusiveTooltipRunnable: Runnable? = null
     private var isTooltipShowing = false
+
+    protected val steadyScreen: SteadyScreen = SteadyScreen(this)
 
     private val requestEditSectionLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == EditHandler.RESULT_REFRESH_PAGE) {
@@ -294,6 +297,9 @@ class PageActivity : BaseActivity(), PageFragment.Callback, LinkPreviewDialog.Lo
     override fun onStart() {
         try {
             super.onStart()
+
+            steadyScreen.clear();
+            steadyScreen.attachView(binding.navigationDrawer);
         } catch (e: Exception) {
             if (e.message.orEmpty().contains(EXCEPTION_MESSAGE_WEBVIEW, true) ||
                 ThrowableUtil.getInnermostThrowable(e).message.orEmpty().contains(EXCEPTION_MESSAGE_WEBVIEW, true)) {
@@ -344,6 +350,11 @@ class PageActivity : BaseActivity(), PageFragment.Callback, LinkPreviewDialog.Lo
         super.onPause()
     }
 
+    override fun onStop() {
+        super.onStop()
+        steadyScreen.destroy();
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(LANGUAGE_CODE_BUNDLE_KEY, app.appOrSystemLanguageCode)
@@ -366,6 +377,7 @@ class PageActivity : BaseActivity(), PageFragment.Callback, LinkPreviewDialog.Lo
 
     override fun onDestroy() {
         Prefs.hasVisitedArticlePage = true
+        steadyScreen.destroy();
         super.onDestroy()
     }
 

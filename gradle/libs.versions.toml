@@ -122,6 +122,7 @@ compose-activity = { module = "androidx.activity:activity-compose", version.ref 
 compose-view-model = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "composeViewModel" }
 compose-test = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-debug-test = { module = "androidx.compose.ui:ui-test-manifest" }
+steadyscreenlib = { group = "io.github.sublimis.steadyscreen", name = "steadyscreen-lib", version.ref = "steadyscreenlib" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradle" }

@@ -290,6 +290,8 @@ dependencies {
     androidTestImplementation(composeBom)
     debugImplementation(libs.compose.debug.test)
     debugImplementation(composeBom)
+
+    implementation(libs.steadyscreenlib)
 }
 
 private setSigningConfigKey(config, Properties props) {

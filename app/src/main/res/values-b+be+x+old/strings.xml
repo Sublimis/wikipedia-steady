@@ -220,7 +220,7 @@
   <string name="settings_item_preferences">Налады</string>
   <string name="settings_activity_title">Налады</string>
   <string name="about_description">Пра аплікацыю Вікіпэдыя</string>
-  <string name="privacy_policy_description">Правілы адносна прыватнасьці</string>
+  <string name="privacy_policy_description">Палітыка прыватнасьці</string>
   <string name="terms_of_use_description">Умовы ўжываньня</string>
   <string name="about_wikipedia_url">https://be-tarask.wikipedia.org/wiki/Вікіпэдыя:Пра_Вікіпэдыю</string>
   <string name="about_libraries_heading">Выкарастаныя бібліятэкі</string>
@@ -384,6 +384,7 @@
   <string name="view_continue_reading_card_subtitle_today">сёньня</string>
   <string name="customize_lang_selection_dialog_cancel_button_text">Скасаваць</string>
   <string name="feed_lang_selection_dialog_cancel_button_text">Скасаваць</string>
+  <string name="feed_accessibility_card_load_more_button">Ладаваць болей</string>
   <string name="feed_language_variants_removal_secondary_dialog_title">Калі ласка, абнавіце свае дадатковыя мовы</string>
   <string name="description_edit_save">Апублікаваць</string>
   <string name="description_edit_cancel_hint">Скасаваць</string>
@@ -397,4 +398,5 @@
   <string name="patroller_diff_tooltip_two">Намер прадказвае імавернасьць добрасумленнага захаваньня праўкі.</string>
   <string name="places_card_action">Болей месцаў побач</string>
   <string name="survey_dialog_cancel">Скасаваць</string>
+  <string name="year_in_review_survey_cancel">Скасаваць</string>
 </resources>

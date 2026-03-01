@@ -129,7 +129,7 @@ class OnThisDayGameViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             } else {
                 LocalDate.now()
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
            LocalDate.now()
         }
     }
@@ -181,9 +181,9 @@ class OnThisDayGameViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         allEvents.shuffle(Random(currentMonth * 100 + currentDay))
 
         // Take an event from the list, and find another event that is within a certain range
-        for (i in 0 until Prefs.otdGameQuestionsPerDay) {
+        repeat(Prefs.otdGameQuestionsPerDay) {
             val event1 = allEvents.removeAt(0)
-            var event2: OnThisDay.Event? = null
+            var event2: OnThisDay.Event?
             val yearSpread = max((390 - (0.19043 * event1.year)).toInt(), 5)
             event2 = allEvents.find { abs(event1.year - it.year) <= yearSpread }
             if (event2 == null) {
@@ -200,6 +200,10 @@ class OnThisDayGameViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 events.add(event1)
                 events.add(event2)
                 allEvents.remove(event2)
+            } ?: run {
+                // If we cannot find the event2, just fill in the year + 10 from event1 with empty text
+                events.add(event1)
+                events.add(OnThisDay.Event(year = event1.year + 10, text = ""))
             }
         }
         return events
@@ -329,7 +333,12 @@ class OnThisDayGameViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     }
 
     private fun composeQuestionState(index: Int): QuestionState {
-        return QuestionState(events[index * 2], events[index * 2 + 1], currentMonth, currentDay)
+        val event1Index = index * 2
+        val event2Index = index * 2 + 1
+        if (event1Index >= events.size || event2Index >= events.size) {
+            return QuestionState(OnThisDay.Event(), OnThisDay.Event(), currentMonth, currentDay)
+        }
+        return QuestionState(events[event1Index], events[event2Index], currentMonth, currentDay)
     }
 
     fun relaunchForDate(date: LocalDate) {
@@ -354,7 +363,7 @@ class OnThisDayGameViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                             year = year,
                             month = month,
                             day = day,
-                            score = answers.count { it }.toInt(),
+                            score = answers.count { it },
                             playType = PlayTypes.PLAYED_ON_SAME_DAY.ordinal,
                             gameData = JsonUtil.encodeToString(answers),
                             currentQuestionIndex = currentState.currentQuestionIndex
